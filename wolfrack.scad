@@ -1,21 +1,17 @@
 profile_width = 30;
-profile_height = 100;
-total_width = 120;
-total_depth = 120;
-total_height = 200;
+total_width = 500;
+total_depth = 700;
+total_height = 600;
 
-height_scale = total_height / profile_height;
+profile_file = "Rexroth-3 842 990 720_200MM.dxf";
 
-translate([0, 0, 0])
-    scale([1,1,height_scale])
-        import("profile-30mm.stl");
-translate([total_width - profile_width, 0, 0])
-    scale([1,1,height_scale])
-      import("./profile-30mm.stl");
-translate([total_width - profile_width, total_depth - profile_width, 0])
-    scale([1,1,height_scale])
-      import("./profile-30mm.stl");    
-translate([0, total_depth - profile_width, 0])
-    scale([1,1,height_scale])
+module pillar(x=0, y=0, z=0, height=700){
+    translate([x+profile_width/2, y+profile_width/2, z])
+        linear_extrude(height)
+            import(file = profile_file);
+}
 
-      import("./profile-30mm.stl");
+pillar();
+pillar(x=total_width - profile_width);
+pillar(x=total_width - profile_width, y=total_depth - profile_width);
+pillar(x=0, y=total_depth - profile_width);
